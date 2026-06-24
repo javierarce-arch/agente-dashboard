@@ -410,10 +410,6 @@ export default function PortfolioBoard() {
     close()
   }
 
-  const resetSeed = () => {
-    if (confirm("¿Volver a los datos de ejemplo? Se pierde todo lo que cargaste.")) persist(SEED)
-  }
-
   const exportar = async () => {
     const json = JSON.stringify(agents, null, 2)
     try {
@@ -583,9 +579,6 @@ export default function PortfolioBoard() {
             </button>
             <button className="pa-btn ghost" onClick={importar}>
               Importar datos
-            </button>
-            <button className="pa-btn ghost" onClick={resetSeed}>
-              Restaurar ejemplo
             </button>
           </span>
         </footer>
