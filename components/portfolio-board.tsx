@@ -435,15 +435,16 @@ export default function PortfolioBoard() {
     setDraft({ ...draft, notas: draft.notas.filter((n) => n.id !== id) })
   }
 
+  const isOpen = !!draft
   useEffect(() => {
-    if (!draft) return
+    if (!isOpen) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close()
     }
     window.addEventListener("keydown", onKey)
     drawerRef.current?.focus()
     return () => window.removeEventListener("keydown", onKey)
-  }, [draft])
+  }, [isOpen])
 
   if (agents === null) {
     return (
