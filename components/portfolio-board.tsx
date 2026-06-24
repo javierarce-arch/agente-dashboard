@@ -424,18 +424,6 @@ export default function PortfolioBoard() {
     URL.revokeObjectURL(url)
   }
 
-  const importar = () => {
-    const txt = prompt("Pegá acá el JSON exportado:")
-    if (!txt) return
-    try {
-      const data = JSON.parse(txt)
-      if (Array.isArray(data)) persist(data as Agent[])
-      else alert("El JSON tiene que ser una lista de agentes.")
-    } catch {
-      alert("No pude leer ese JSON. Revisá que esté completo.")
-    }
-  }
-
   const addNota = () => {
     if (!nota.trim() || !draft) return
     const n: Nota = { id: uid(), fecha: hoyISO(), texto: nota.trim() }
@@ -576,9 +564,6 @@ export default function PortfolioBoard() {
           <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <button className="pa-btn ghost" onClick={exportar}>
               Exportar datos
-            </button>
-            <button className="pa-btn ghost" onClick={importar}>
-              Importar datos
             </button>
           </span>
         </footer>
