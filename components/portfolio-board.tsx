@@ -67,37 +67,57 @@ const hoyISO = () => new Date().toISOString().slice(0, 10)
 // Datos de arranque = lo que ven los visitantes hasta que publiques.
 const SEED: Agent[] = [
   {
-    id: uid(),
+    id: "lnjzrvp",
     nombre: "Agente de FAQs",
-    creado: "2026-05-15",
+    creado: "2026-06-24",
     estado: "desarrollo",
     avance: 70,
     prioridad: "media",
     estadoActual: "",
-    queHace: "Responde preguntas frecuentes de forma automática.",
-    porQue: "",
-    metricas: "",
-    sponsor: "",
-    notas: [],
+    queHace:
+      "A partir de un listado de cursos (ID + URL), ingrese a cada ficha de curso, extraiga su información y genere automáticamente 8 preguntas frecuentes (FAQs) específicas de ese curso, las publique vía API (PUT) y deje registro auditable de cada FAQ publicada.\n",
+    porQue:
+      "LLMO (objetivo prioritario): posicionar el curso en respuestas de LLMs y buscadores conversacionales. Las preguntas deben emular cómo una persona real le consulta a un asistente IA y las respuestas deben ser citables, autocontenidas y factuales.\nValor para el potencial alumno: ayudar a entender el tema, por qué formarse en él y qué aporta a su desarrollo profesional, posicionando el curso como la respuesta natural.\n\nDecisión tomada: cuando haya tensión entre ambos objetivos, prevalece LLMO, sin sacrificar veracidad.\n",
+    metricas:
+      "LLMO\n\nAparición/citación del curso en respuestas de LLMs y buscadores con IA para queries objetivo.\nCobertura de intenciones (las 8 categorías) por curso.\n\nAlumno\n\nReducción de consultas repetidas a atención/ventas sobre temas cubiertos por las FAQs.\nTiempo en página / interacción con la sección de FAQs (si se mide).\n\nOperación / calidad\n\n% de cursos procesados sin error.\n% de FAQs marcadas needs_fix en revisión posterior (cuanto más bajo, mejor el agente).\n",
+    sponsor: "Daniel Geisles/Juan Ortiz",
+    notas: [
+      {
+        id: "cvr2368",
+        fecha: "2026-06-24",
+        texto:
+          "24/06: Se finaliza la prueba piloto con fase 1. Hay que integrar con sofía y probar con endpoint /preview",
+      },
+    ],
   },
   {
-    id: uid(),
+    id: "79q09e7",
     nombre: "Agente Análisis de Mercado",
-    creado: "2026-05-20",
+    creado: "2026-06-24",
     estado: "desarrollo",
     avance: 95,
     prioridad: "media",
-    estadoActual: "Ajustes de feedback del equipo de estrategia y desarrollo.",
-    queHace: "Analiza información de mercado para apoyar decisiones de estrategia.",
-    porQue: "",
-    metricas: "",
-    sponsor: "",
-    notas: [],
+    estadoActual: "",
+    queHace:
+      "Automatización del análisis técnico de propuestas formativas para eliminar el backlog, multiplicar la capacidad de procesamiento y operar 7×24. Recibe la ficha del producto y con eso arma el análisis de mercado.",
+    porQue:
+      "Mejora en la calidad del análisis y lo más importante, libera de hs dedicadas a armar análisis, feedback más rápido al docente en caso de que la propueta caiga en revisión y aprobación más rapida de la cursada, permitiendo manejar un caudal mayor y escalar la creación de nuevas propuestas formativas",
+    metricas:
+      "–83% en el ciclo completo de búsqueda, extracción, validación y armado. Libera horas-hombre para análisis estratégico.\n\nCiclo de aprobación/rechazo reducido a la mitad, permitiendo reaccionar más rápido a oportunidades del mercado.",
+    sponsor: "Roberto Roberts",
+    notas: [
+      {
+        id: "sbvaodd",
+        fecha: "2026-06-24",
+        texto:
+          "Me reuní con Ximena García, recibí feedback y ya ajusté en base a ese feedback. Me falta configurar notificación por mail para que sepan cuando el análisis esté hecho. SE entrega a producción mañana 25/06",
+      },
+    ],
   },
   {
-    id: uid(),
+    id: "yi6w2wd",
     nombre: "Agente Reporte Diario",
-    creado: "2026-04-10",
+    creado: "2026-06-24",
     estado: "produccion",
     avance: 100,
     prioridad: "media",
@@ -105,19 +125,25 @@ const SEED: Agent[] = [
     queHace: "Genera reportes diarios de actividad de forma automática.",
     porQue: "",
     metricas: "",
-    sponsor: "",
-    notas: [],
+    sponsor: "Nicolas Cacciavillani",
+    notas: [
+      {
+        id: "kb6bs5a",
+        fecha: "2026-06-24",
+        texto: "Nico indica que otro tipo de reporte le aportaría más valor.",
+      },
+    ],
   },
   {
-    id: uid(),
+    id: "xnor3di",
     nombre: "Agente de Email Marketing",
-    creado: "2026-06-20",
+    creado: "2026-06-24",
     estado: "backlog",
     avance: 0,
     prioridad: "media",
     estadoActual: "Fase 1 — relevando origen de los datos.",
     queHace:
-      "Automatiza de punta a punta el flujo de datos de campañas. Fase 1 (sin IA): extrae la data desde QuickSight y la carga en Marketing Cloud de forma determinística y confiable. Primer caso concreto: detectar impagos en los +700 cursos y llevarlos a Marketing Cloud para recuperarlos con campañas. Fase 2 (con IA): un agente toma esa misma data, arma y segmenta las audiencias y prepara las campañas de email; propone y una persona revisa y aprueba antes de cualquier envío.",
+      "Automatiza de punta a punta el flujo de datos de campañas. Extrae la data desde QuickSight y la carga en Marketing Cloud. Un agente toma esa misma data, arma y segmenta las audiencias y prepara las campañas de email.",
     porQue:
       "Hoy la extracción desde QuickSight y la carga en Marketing Cloud se hace 100% a mano. Los impagos son donde hay conversión para ganar de entrada. La Fase 2 se apoya sobre la Fase 1 sin rehacer nada: arrancamos simple y le sumamos inteligencia encima.",
     metricas:
@@ -125,7 +151,7 @@ const SEED: Agent[] = [
     sponsor: "Joana Scaminacci",
     notas: [
       {
-        id: uid(),
+        id: "8dync2j",
         fecha: "2026-06-24",
         texto:
           "Próximo paso: hablar con Carlos Maldonado y Maximiliano Aguero para conocer de dónde se extrae la data hacia QuickSight, y con eso empezar a diseñar la automatización de la Fase 1.",
@@ -133,32 +159,141 @@ const SEED: Agent[] = [
     ],
   },
   {
-    id: uid(),
+    id: "r7382t4",
     nombre: "Agente de Riesgo de Abandono",
-    creado: "2026-06-22",
+    creado: "2026-06-24",
     estado: "backlog",
     avance: 0,
     prioridad: "media",
-    estadoActual: "",
-    queHace: "Detecta señales tempranas de riesgo de abandono.",
-    porQue: "",
-    metricas: "",
-    sponsor: "",
-    notas: [],
+    estadoActual: "Esperando aprobación para iniciarlo",
+    queHace:
+      "Detecta alumnos en riesgo de deserción sintetizando señales de LMS, pagos y actividad; dispara intervenciones personalizadas automáticas.\n¿Qué hace? Sintetiza señales de login, progreso, pagos y foros; razona sobre patrones de deserción; notifica al tutor y dispara mensajes de retención personalizados. (Tal vez, a largo plazo, podemos integrarlo con el CRM como caso de Soporte)",
+    porQue:
+      "Lo justifica la evidencia empírica (Nature, 2025) de que intervenciones tempranas reducen churn hasta 30%",
+    metricas: "Mide: tasa de abandono, tiempo-a-intervención, retención trimestral.",
+    sponsor: "A definir",
+    notas: [
+      {
+        id: "rjtjlc9",
+        fecha: "2026-06-24",
+        texto: "Propuesta iniciada por Javier Arce, a espera de aprobación",
+      },
+    ],
   },
   {
-    id: uid(),
+    id: "3hip5pw",
     nombre: "Agente de Brecha de Habilidades para Empresas",
-    creado: "2026-06-22",
+    creado: "2026-06-24",
+    estado: "backlog",
+    avance: 0,
+    prioridad: "media",
+    estadoActual: "Esperando aprobación",
+    queHace:
+      "Analiza los perfiles de empleados de una empresa cliente y recomienda programas formativos alineados al gap detectado. \n¿Qué hace? Analiza descripción de puestos y perfiles de empleados provistos por la empresa (o los infiere en base a la información de la empresa); razona sobre gaps vs. oferta académica disponible; genera propuesta de capacitación personalizada. (Esto también podríamos aplicarlo con empresas que se están registrando en Talentia, en base a las ofertas que crean, la información de la empresa, etc.)",
+    porQue:
+      "Convierte el Portal Empresas en un consultor proactivo de L&D (Aprendizaje y Desarrollo). \n¿Por qué hacerlo? Portal Empresas carece de propuesta proactiva de valor; L&D corporativo es el segmento de mayor crecimiento en EdTech B2B 2025\n",
+    metricas:
+      "Métricas: Propuestas L&D generadas/mes; tasa de conversión B2B; ingresos incrementales por cuenta",
+    sponsor: "A definir",
+    notas: [
+      {
+        id: "ndmbh8s",
+        fecha: "2026-06-24",
+        texto: "Propuesta iniciado por Javier Arce, a espera de aprobación",
+      },
+    ],
+  },
+  {
+    id: "n00oyrc",
+    nombre: "Agente de SEO",
+    creado: "2026-06-24",
+    estado: "backlog",
+    avance: 0,
+    prioridad: "baja",
+    estadoActual: "Incipiente, hablando con el Sponsor para tener más información",
+    queHace: "",
+    porQue:
+      "Vamos a dar de baja la agencia de SEO\nel tema es que, no tenemos un rol interno\nquería ver la posibilidad de tener un agente para ciertas tareas\no avisos entiendo que se puede potenciar y relacionarlo con GEO también",
+    metricas: "",
+    sponsor: "Joana Scaminacci",
+    notas: [
+      {
+        id: "vj02apm",
+        fecha: "2026-06-24",
+        texto: "Incipiente, hablando con el Sponsor para tener más información",
+      },
+    ],
+  },
+  {
+    id: "zms28gs",
+    nombre: "Agente de SDD",
+    creado: "2026-06-24",
+    estado: "backlog",
+    avance: 0,
+    prioridad: "baja",
+    estadoActual: "",
+    queHace:
+      "Convierte un requerimiento de negocio en una especificación técnica implementable, leyendo los repositorios del Squad. Del requerimiento al backlog, con validación humana en cada etapa",
+    porQue:
+      "¿Por qué ahora?\nContexto perdido en cada paso\nEl requerimiento se reinterpreta al pasar de negocio a análisis, a arquitectura, a desarrollo. Cada handoff pierde precisión.\nTiempo experto en tareas repetitivas\nAnalistas y arquitectos invierten horas armando specs y cargando tareas a mano, en lugar de decidir.\nMadurez de la tecnología\nEl SDD asistido por IA (Kiro, spec-kit, Claude Code) ya es práctica probada. Estamos a tiempo de adoptarlo ordenadamente.\n",
+    metricas: "A definir.",
+    sponsor: "Nicolas Cacciavillani",
+    notas: [
+      {
+        id: "oc9w7lw",
+        fecha: "2026-06-24",
+        texto:
+          "Quedó despriorizado por Dani y Uli. Nico lo reflotó, pero Dani le pidió métricas de impacto en el negocio claras, pendientes de armar por parte de Nico",
+      },
+    ],
+  },
+  {
+    id: "dp79rdh",
+    nombre: "Agente de IA para Benchmarking Competitivo",
+    creado: "2026-06-24",
     estado: "backlog",
     avance: 0,
     prioridad: "media",
     estadoActual: "",
-    queHace: "Identifica brechas de habilidades en empresas.",
-    porQue: "",
-    metricas: "",
-    sponsor: "",
-    notas: [],
+    queHace:
+      "Automatización del relevamiento y la comparación de la oferta de la competencia —precio, ejes temáticos, modalidad, duración y formato— que hoy se realiza de forma manual y esporádica, para sustentar decisiones de pricing, portfolio y posicionamiento con datos sistemáticos y actualizados\n",
+    porQue:
+      "¿Por qué ahora?\nDecisiones a ciegas\nSe define pricing y diseño de programas sin una referencia sistemática y actualizada del mercado..\nCosto del relevamiento manual\nEl equipo invierte tiempo experto recolectando datos de la competencia en lugar de analizarlos y priorizar\nInformación desactualizada\nCuando el comparativo está listo, el mercado ya se movió; las conclusiones llegan tarde.\nGaps no detectados\nEjes temáticos no cubiertos o ventanas de diferenciación son difíciles de ver a mano.",
+    metricas:
+      "–80%\nTIEMPO DE RELEVAMIENTO\nEl armado del comparativo pasa de días de trabajo manual a horas. Libera tiempo experto para análisis estratégico..\n10×\nCOMPETIDORES CUBIERTOS\nAmplía el universo relevado sin sumar headcount: más oferentes, más programas, más dimensiones.\nMensual\nFRECUENCIA DE ACTUALIZACIÓN\nDe un relevamiento esporádico a una actualización periódica que detecta movimientos del mercado a tiempo..",
+    sponsor: "Ulises Martins / Roberto Roberts",
+    notas: [
+      {
+        id: "j404g9p",
+        fecha: "2026-06-24",
+        texto:
+          "Surgió como idea de Uli, a Cho le gustó la idea, aún pendiente de aprobación para iniciarlo",
+      },
+    ],
+  },
+  {
+    id: "4fkry95",
+    nombre: "Agente de IA para Optimización de Oferta Educativa",
+    creado: "2026-06-24",
+    estado: "backlog",
+    avance: 0,
+    prioridad: "baja",
+    estadoActual: "",
+    queHace:
+      "Analiza la oferta interna completa, detecta los programas que hoy no se venden y propone ejes temáticos a ajustar para reposicionarlos y recuperar tracción.",
+    porQue:
+      "Oferta que no se vende\nProgramas activos sin matrícula consumen gestión y diluyen el catálogo. 300 cursadas menos en 2025 vs. el año anterior.\nEjes temáticos desactualizados\nLa demanda evolucionó, pero la oferta conserva títulos y enfoques que ya no traccionan en el mercado.\nDecisiones reactivas y muestrales\nLa revisión de oferta es manual, esporádica y parcial: se decide tarde y sobre datos incompletos.",
+    metricas:
+      "–80%\nCICLO DE DIAGNÓSTICO\nDe semanas a días para diagnosticar la salud de la oferta completa. Libera al equipo para análisis estratégico.\n↑ Ejes\nPROPUESTAS ACCIONABLE\nRecomendaciones concretas por programa: renombrar, fusionar, relanzar o retirar, con justificación de datos.\n↓ Solape\nMENOS CANIBALIZACIÓN\nIdentifica programas que compiten por la misma demanda y consolida la oferta para enfocar la inversión.",
+    sponsor: "Roberto Roberts",
+    notas: [
+      {
+        id: "xyc0hzo",
+        fecha: "2026-06-24",
+        texto:
+          "Propuesta iniciada por Javier Arce, a la espera de aprobación. Hoy igual se cuenta con un data mesh. Tal vez puede linkearse con marketing para empujar conversión de estos cursos",
+      },
+    ],
   },
 ]
 
