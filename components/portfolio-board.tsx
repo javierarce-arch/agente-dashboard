@@ -21,6 +21,7 @@ type Nota = { id: string; fecha: string; texto: string }
 type Agent = {
   id: string
   nombre: string
+  creado: string
   estado: EstadoKey
   avance: number
   prioridad: PrioridadKey
@@ -68,6 +69,7 @@ const SEED: Agent[] = [
   {
     id: uid(),
     nombre: "Agente de FAQs",
+    creado: "2026-05-15",
     estado: "desarrollo",
     avance: 70,
     prioridad: "media",
@@ -81,6 +83,7 @@ const SEED: Agent[] = [
   {
     id: uid(),
     nombre: "Agente Análisis de Mercado",
+    creado: "2026-05-20",
     estado: "desarrollo",
     avance: 95,
     prioridad: "media",
@@ -94,6 +97,7 @@ const SEED: Agent[] = [
   {
     id: uid(),
     nombre: "Agente Reporte Diario",
+    creado: "2026-04-10",
     estado: "produccion",
     avance: 100,
     prioridad: "media",
@@ -107,6 +111,7 @@ const SEED: Agent[] = [
   {
     id: uid(),
     nombre: "Agente de Email Marketing",
+    creado: "2026-06-20",
     estado: "backlog",
     avance: 0,
     prioridad: "media",
@@ -130,6 +135,7 @@ const SEED: Agent[] = [
   {
     id: uid(),
     nombre: "Agente de Riesgo de Abandono",
+    creado: "2026-06-22",
     estado: "backlog",
     avance: 0,
     prioridad: "media",
@@ -143,6 +149,7 @@ const SEED: Agent[] = [
   {
     id: uid(),
     nombre: "Agente de Brecha de Habilidades para Empresas",
+    creado: "2026-06-22",
     estado: "backlog",
     avance: 0,
     prioridad: "media",
@@ -197,6 +204,10 @@ const Styles = () => (
     .pa-card .c-name { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;
       line-height:1.2; margin:0 0 6px; padding-right:14px; }
     .pa-card .c-desc { font-size:12.5px; color:var(--ink-soft); margin:0 0 16px; line-height:1.45; }
+    .pa-card .pa-prio { display:inline-block; }
+    .c-lastnote .c-notetext { display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+    .pa-card .c-foot { margin-top:14px; font-family:'Space Mono',monospace; font-size:10px;
+      letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); }
 
     .pa-prog { display:flex; align-items:center; gap:10px; }
     .pa-track { flex:1; display:flex; gap:2px; }
@@ -305,6 +316,7 @@ function emptyAgent(): Agent {
   return {
     id: uid(),
     nombre: "",
+    creado: hoyISO(),
     estado: "backlog",
     avance: 0,
     prioridad: "media",
@@ -348,6 +360,35 @@ function Section({
   )
 }
 
+function AgentCard({ a, onClick }: { a: Agent; onClick: () => void }) {
+  const ultima = (a.notas || [])[0]
+  const p = PRIORIDADES[a.prioridad] || PRIORIDADES.media
+  return (
+    <button className="pa-card" onClick={onClick}>
+      <div className="c-name">{a.nombre}</div>
+      {a.queHace && <div className="c-desc">{a.queHace}</div>}
+      {a.estado === "desarrollo" && <Progress value={a.avance} color={ESTADOS.desarrollo.color} />}
+      {a.estado === "produccion" && (
+        <span className="pa-live">
+          <span className="pa-livedot" /> en vivo
+        </span>
+      )}
+      {a.estado === "backlog" && (
+        <span className="pa-prio" style={{ color: p.color, background: p.color + "1A" }}>
+          {p.label}
+        </span>
+      )}
+      {ultima && (
+        <div className="pa-now c-lastnote">
+          <b>Última nota · {fmtFecha(ultima.fecha)}</b>
+          <span className="c-notetext">{ultima.texto}</span>
+        </div>
+      )}
+      <div className="c-foot">Creado {fmtFecha(a.creado)}</div>
+    </button>
+  )
+}
+
 export default function PortfolioBoard() {
   const [agents, setAgents] = useState<Agent[] | null>(null)
   const [draft, setDraft] = useState<Agent | null>(null)
@@ -358,7 +399,9 @@ export default function PortfolioBoard() {
   useEffect(() => {
     try {
       const raw = store.get(STORAGE_KEY)
-      setAgents(raw ? (JSON.parse(raw) as Agent[]) : SEED)
+      const parsed = raw ? (JSON.parse(raw) as Agent[]) : SEED
+      // Migración: agentes guardados antes de tener fecha de creación.
+      setAgents(parsed.map((a) => ({ ...a, creado: a.creado || hoyISO() })))
     } catch {
       setAgents(SEED)
     }
@@ -495,17 +538,7 @@ export default function PortfolioBoard() {
           ) : (
             <div className="pa-grid">
               {kpis.dev.map((a) => (
-                <button key={a.id} className="pa-card" onClick={() => openAgent(a)}>
-                  <div className="c-name">{a.nombre}</div>
-                  {a.queHace && <div className="c-desc">{a.queHace}</div>}
-                  <Progress value={a.avance} color={ESTADOS.desarrollo.color} />
-                  {a.estadoActual && (
-                    <div className="pa-now">
-                      <b>AHORA</b>
-                      {a.estadoActual}
-                    </div>
-                  )}
-                </button>
+                <AgentCard key={a.id} a={a} onClick={() => openAgent(a)} />
               ))}
             </div>
           )}
@@ -519,19 +552,7 @@ export default function PortfolioBoard() {
           ) : (
             <div className="pa-grid">
               {kpis.prod.map((a) => (
-                <button key={a.id} className="pa-card" onClick={() => openAgent(a)}>
-                  <div className="c-name">{a.nombre}</div>
-                  {a.queHace && <div className="c-desc">{a.queHace}</div>}
-                  <span className="pa-live">
-                    <span className="pa-livedot" /> en vivo
-                  </span>
-                  {a.estadoActual && (
-                    <div className="pa-now">
-                      <b>AHORA</b>
-                      {a.estadoActual}
-                    </div>
-                  )}
-                </button>
+                <AgentCard key={a.id} a={a} onClick={() => openAgent(a)} />
               ))}
             </div>
           )}
@@ -541,21 +562,12 @@ export default function PortfolioBoard() {
           {kpis.back.length === 0 ? (
             <p className="pa-empty">Backlog vacío.</p>
           ) : (
-            <div className="pa-rows">
+            <div className="pa-grid">
               {[...kpis.back]
                 .sort((a, b) => prioRank(a.prioridad) - prioRank(b.prioridad))
-                .map((a) => {
-                  const p = PRIORIDADES[a.prioridad] || PRIORIDADES.media
-                  return (
-                    <button key={a.id} className="pa-row" onClick={() => openAgent(a)}>
-                      <span className="pa-prio" style={{ color: p.color, background: p.color + "1A" }}>
-                        {p.label}
-                      </span>
-                      <span className="r-name">{a.nombre}</span>
-                      <span className="r-desc">{a.queHace || ""}</span>
-                    </button>
-                  )
-                })}
+                .map((a) => (
+                  <AgentCard key={a.id} a={a} onClick={() => openAgent(a)} />
+                ))}
             </div>
           )}
         </Section>
